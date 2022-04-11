@@ -130,7 +130,6 @@ ManyInfo UHF_RFID::Multiple_polling_instructions(UWORD cycle_nub)
   ToHex(cycle_nub, 6, 7);
   Check_bit_accumulation();
   Send_the_modified_command();
-
   for (int i = 0; i != cycle_nub; i++)
   {
     Readcallback();
