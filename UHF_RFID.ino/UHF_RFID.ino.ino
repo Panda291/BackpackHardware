@@ -7,8 +7,8 @@
 
 UHF_RFID RFID;
 
-const char *ssid = "Van den Eede";
-const char *password = "a123456789";
+const char *ssid = "backpack_hotspot";
+const char *password = "backpack";
 
 String comd = " ";
 CardpropertiesInfo card;
@@ -67,14 +67,14 @@ void loop() {
                 M5.Lcd.drawString(cards.card[i]._EPC, 0, 5 + i * 15, 2);
                 M5.Lcd.drawString(cards.card[i]._CRC, 280, 5 + i * 15, 2);
             }
-            RFIDs = RFIDs.substring(0, RFIDs.length() - 1);
-            RFIDs += "]";
-            M5.Lcd.printf("%s\n", RFIDs.c_str());
-            RFID.Delay(1000);
-            RFID.clean_data();
-
-            httpRequest();
+            RFIDs = RFIDs.substring(0, RFIDs.length() - 1);   
         }
+        RFIDs += "]";
+        M5.Lcd.printf("%s\n", RFIDs.c_str());
+        RFID.Delay(1000);
+        RFID.clean_data();
+
+        httpRequest();
 
         //  M5.Lcd.fillRect(0, 0, 340, 280, BLACK);
         while (!digitalRead(HALL)) {
@@ -83,6 +83,7 @@ void loop() {
             M5.Lcd.fillCircle(310, 10, 6, BLACK);
             RFID.Delay(150);
         }
+        M5.Speaker.end();
         M5.Lcd.fillRect(0, 0, 340, 280, BLACK);
 
     }
@@ -102,6 +103,7 @@ void httpRequest() {
             if (httpCode == 204) {
                 M5.Lcd.fillRect(0, 0, 340, 280, GREEN);
             } else {
+                M5.Speaker.tone(661, 500);
                 M5.Lcd.fillRect(0, 0, 340, 280, RED);
             }
         } else {
